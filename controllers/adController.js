@@ -1,4 +1,4 @@
-const { getAll, create, getById, getByIdAuthor } = require('../services/adService');
+const { getAll, create, getById, getByIdAuthor, deleteById, edit } = require('../services/adService');
 const { parseError } = require('../util/parser');
 
 const adController = require('express').Router();
@@ -74,13 +74,43 @@ adController.get('/:id/details', async (req, res) => {
         location: ad.location,
         companyName: ad.companyName,
         companyDescription: ad.companyDescription,
+        id: ad._id,
         author,
         isAuthor,
     });
 });
 
 adController.get('/:id/delete', async (req, res) => {
+    const id = req.params.id;
+    const ad = await getById(id);
+
+    await deleteById(id);
+    res.redirect('/ads/catalog');
+});
+
+adController.get('/:id/edit', async (req, res) => {
+    const id = req.params.id;
+    const ad = await getById(id);
+
+    res.render('edit', {
+        title: 'Edit Ad',
+        ad,
+    })
     
-})
+});
+
+adController.post('/:id/edit', async (req, res) => {
+    const id = req.params.id;
+    const ad = await getById(id);
+    const edited = {
+        headline: req.body.headline,
+        location: req.body.location,
+        companyName: req.body.companyName,
+        companyDescription: req.body.companyDescription,
+    }
+
+    await edit(id, edited)
+    res.redirect(`/ads/${req.params.id}/details`);
+});
 
 module.exports = adController;
