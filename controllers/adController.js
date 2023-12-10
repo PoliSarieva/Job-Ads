@@ -1,4 +1,4 @@
-const { getAll, create } = require('../services/adService');
+const { getAll, create, getById, getByIdAuthor } = require('../services/adService');
 const { parseError } = require('../util/parser');
 
 const adController = require('express').Router();
@@ -46,5 +46,41 @@ adController.post('/create', async (req, res) => {
         });
     }
  });
+
+ adController.get('/catalog', async (req, res) => {
+   const ads = await getAll();
+
+    res.render('catalog', {
+        title: 'All ads',
+        ads
+    });
+ });
+
+adController.get('/:id/details', async (req, res) => {
+    const id = req.params.id;
+   const ad = await getById(id);
+   const authorPath = await getByIdAuthor(id);
+   const author = authorPath.owner.email;
+   const isOwner = '';
+    let isAuthor = false;
+    if(author == req.email?.email) {
+        isAuthor = true;
+    }
+   
+
+    res.render('details', {
+        title: 'Details Ad',
+        headline: ad.headline,
+        location: ad.location,
+        companyName: ad.companyName,
+        companyDescription: ad.companyDescription,
+        author,
+        isAuthor,
+    });
+});
+
+adController.get('/:id/delete', async (req, res) => {
+    
+})
 
 module.exports = adController;

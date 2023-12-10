@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <title>{{title}}</title>
 
     <!-- Do not forget to change the path to the css file -->
     <link rel="stylesheet" href="/static/css/style.css">
@@ -34,7 +34,7 @@
                     <li class="header-nav-list-item">
                         <a href="/ads/catalog" class="header-nav-list-item-link">All ads</a>
                     </li>
-                    {{#if user}}
+                    {{#if email}}
                     <!-- Logged users -->
                     <li class="header-nav-list-item">
                         <a href="/ads/create" class="header-nav-list-item-link">Create Ad</a>
