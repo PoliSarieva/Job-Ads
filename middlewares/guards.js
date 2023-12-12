@@ -1,6 +1,6 @@
 function hasUser() {
     return (req, res, next) => {
-        if (req.user) {
+        if (req.email) {
             next();
         } else {
             res.redirect('/auth/login');
@@ -10,7 +10,7 @@ function hasUser() {
 
 function isGuests() {
     return (req, res, next) => {
-        if (req.user) {
+        if (req.email) {
             res.redirect('/');//TODO chec to correct redirect
         } else {
             next();
