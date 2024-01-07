@@ -1,2 +1,2 @@
 # Job-Ads
-worshop at SoftUni Bec-End course
+worshop at SoftUni Back-End course
